@@ -1,0 +1,13 @@
+import requests
+import json
+
+url=httpexample.comindex.php
+
+r = requests.post('httpexample.comindex.php', params={'q' 'raspberry pi request'})
+
+if r.status_code != 200
+  print Error, r.status_code
+
+data = r.json()
+example = data[value1][value2]
+print(example)

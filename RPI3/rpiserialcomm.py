@@ -1,25 +1,28 @@
 import time
 import serial
+import json
 
-print "Starting program"
+print ("Starting program")
 
-ser = serial.Serial('/dev/ttyAMA0', baudrate=115200,
-                    parity=serial.PARITY_NONE,
-                    stopbits=serial.STOPBITS_ONE,
-                    bytesize=serial.EIGHTBITS
-                    )
+ser = serial.Serial('/dev/serial0',115200)
 time.sleep(1)
 try:
     while True:
-        if ser.inWaiting() > 0:
-            data = ser.read()
-            print data
+##        if ser.inWaiting() > 0:
+        rawdata = ser.readline()
+        print("----------------------------------------------------")
+        rawdata=rawdata.decode('ASCII')
+##            print (rawdata)
+        data = json.loads(rawdata)
+        
+        print(data["Red Team Data"]["Circle"]["Object Center"]["X"])
+            
         
 except KeyboardInterrupt:
-    print "Exiting Program"
+    print ("Exiting Program")
 
-except:
-    print "Error Occurs, Exiting Program"
+##except:
+##    print ("Error Occurs, Exiting Program")
 
 finally:
     ser.close()

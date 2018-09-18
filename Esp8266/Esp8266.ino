@@ -8,7 +8,7 @@ void setup () {
  
   Serial.begin(115200);
   WiFi.begin(ssid);
- 
+ //User knows when to wait for wifi connection
   while (WiFi.status() != WL_CONNECTED) {
  
     delay(1000);
@@ -17,7 +17,10 @@ void setup () {
   }
  
 }
- 
+ //this part of the code is for when the WIFI has been connected
+//It declares to use the URL HTTP for the data
+//then it defines the IP address of Prof. Johnston's network were pulling from
+//if data is retrieved the connection closes but asks for more information every 30 seconds
 void loop() {
  
   if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status

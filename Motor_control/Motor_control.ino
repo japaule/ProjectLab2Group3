@@ -27,11 +27,10 @@ void setup() {
 
   delay(2000);
 
-  mySerial.println("*[Rover1/#]");
+  mySerial.println("*[Rover1]");
   delay(500);
-  mySerial.println("[Rover1/M1][0]");
-  mySerial.println("[Rover1/M2][0]");
-  mySerial.println("[Rover1/M3][0]");
+  mySerial.println("[Rover1][0-0-0]");
+  delay(500);
   
 }
 
@@ -82,19 +81,28 @@ void loop() { // run over and over
     info.remove(info.length() -1, 1);
     info.remove(0, i);
     Serial.println(topic);
-    Serial.println(info.toInt());
-    if(topic == "Rover1/M1"){
-      w1 = info.toInt();
-      motors();
-    }
-    if(topic == "Rover1/M2"){
-      w2 = info.toInt();
-      motors();
-    }
-    if(topic == "Rover1/M3"){
-      w3 = info.toInt();
-      motors();
-    }
+
+    for(i = 0; info[i]!='_';i++){}
+    temp = info;
+    info.remove(i, info.length()-i); 
+    w1 = info.toInt();
+    info = temp;
+    info.remove(0,i+1);
+
+    for(i = 0; info[i]!='_';i++){}
+    temp = info;
+    info.remove(i, info.length()-i);
+    w2 = info.toInt();
+    info = temp;
+    info.remove(0,i+1);
+
+    info.remove(info.length()-1, 1);
+    w3 = info.toInt();
+
+    Serial.println(w1);
+    Serial.println(w2);
+    Serial.println(w3);
+    motors();
     info ="";
   }
   

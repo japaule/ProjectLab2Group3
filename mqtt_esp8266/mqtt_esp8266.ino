@@ -3,9 +3,14 @@
 
 // Update these with values suitable for your network.
 
-const char* ssid = "ATT678F8hN";
-const char* password = "8jvk4m?nk#zh";
-const char* mqtt_server = "192.168.1.73";
+//const char* ssid = "ATT678F8hN";
+//const char* password = "8jvk4m?nk#zh";
+
+const char* ssid = "NETGEAR56";
+const char* password = "cleverviolet049";
+
+
+const char* mqtt_server = "192.168.1.10";
 
 
 WiFiClient espClient;
@@ -16,7 +21,7 @@ int value = 0;
 
 void setup() {
   pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
-  Serial.begin(115200);
+  Serial.begin(9600);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
@@ -26,7 +31,6 @@ void setup_wifi() {
 
   delay(10);
   // We start by connecting to a WiFi network
-  Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
@@ -44,13 +48,13 @@ void setup_wifi() {
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
+  Serial.print("[");
   Serial.print(topic);
-  Serial.print("] ");
+  Serial.print("][");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
   }
-  Serial.println();
+  Serial.println("]");
 
   // Switch on the LED if an 1 was received as first character
   if ((char)payload[0] == '1') {
@@ -73,8 +77,7 @@ void reconnect() {
       // Once connected, publish an announcement...
       client.publish("Test" , "Connected");
       // ... and resubscribe
-      client.subscribe("inTopic");
-      client.subscribe("cole");
+      client.subscribe("Rover2");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -118,8 +121,9 @@ void getserial(){
       char msg[message.length()]; 
       message.toCharArray(msg, message.length()+1);
       client.subscribe(msg);
-      Serial.print("Subscribed to ");
-      Serial.println(msg);
+      Serial.write("Subscribed to ");
+      Serial.write(msg);
+      Serial.write('\n');
     }
 }
 

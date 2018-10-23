@@ -25,5 +25,6 @@ def mqtt_setup():
 # time.sleep(.9)
 # client.publish("Rover1/M2",300)
 # time.sleep(.8)
-
+def pubspeeds(Rover,m1,m2,m3):
+	client.publish(Rover+str(m1)+'_'+str(m2)+'_'+str(m3))
 

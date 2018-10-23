@@ -9,8 +9,8 @@
 
 from rpiserialcomm import *
 from pix2coord import *
+from Mqtt import *
 
-updatecnt = 0
 
 
 print("Application Starting.....")
@@ -19,11 +19,14 @@ print("Application Starting.....")
 print("Serial Comm setup...")
 ser = serial.Serial('/dev/serial0',115200)
 time.sleep(1)
+mqtt_setup()
+time.sleep(1)
 
 ##updatejson(ser)
 while True:
         updatejson(ser)
         time.sleep(.25)
+        pubspeeds("Rover1",100,-200,100)
     
     
         #ser.close()

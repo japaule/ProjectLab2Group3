@@ -8,7 +8,7 @@ Wicked_DCMotor m1(M1);
 Wicked_DCMotor m2(M2);
 Wicked_DCMotor m3(M3);
 
-double w1=0,w2=0,w3=0;
+double w1=0,w2=0,w3=0, sully=0;
 
 String info;
 
@@ -51,6 +51,10 @@ void motors(){
   m1.setSpeed(w1_speed);
   m2.setSpeed(w2_speed);
   m3.setSpeed(w3_speed);
+  Serial.println(w1_speed);
+  Serial.println(w2_speed);
+  Serial.println(w3_speed);
+  
   
 }
 
@@ -74,23 +78,32 @@ void loop() { // run over and over
       info.remove(info.length() -1, 1);
       info.remove(0, i);
     
-      for(i = 0; info[i]!='_';i++){}
+      for(i = 0; info[i]!='_'&& i <= info.length();i++){}
       temp = info;
       info.remove(i, info.length()-i); 
       w1 = info.toInt();
       info = temp;
       info.remove(0,i+1);
     
-      for(i = 0; info[i]!='_';i++){}
+      for(i = 0; info[i]!='_' &&i <= info.length();i++){}
       temp = info;
       info.remove(i, info.length()-i);
       w2 = info.toInt();
       info = temp;
       info.remove(0,i+1);
+
+      for(i = 0; info[i]!='_' && i <= info.length();i++){}
+      temp = info;
+      info.remove(i, info.length()-i);
+      w3 = info.toInt();
+      info = temp;
+      info.remove(0,i+1);
     
       info.remove(info.length()-1, 1);
-      w3 = info.toInt();
+      sully = info.toInt();
+      
       motors();
+      Serial.println(sully);
       info ="";
     }
   }

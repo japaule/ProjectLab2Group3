@@ -11,7 +11,7 @@ from rpiserialcomm import *
 from pix2coord import *
 from Mqtt import *
 
-
+sully = 0
 
 print("Application Starting.....")
 
@@ -26,7 +26,11 @@ time.sleep(1)
 while True:
         updatejson(ser)
         time.sleep(.25)
-        pubspeeds("Rover1",100,-200,100)
+        pubspeeds("Rover1",100,-200,100,sully)
+        if ((abs(ball.x-redcircle.x))<5 && abs((ball.y-redcircle.y)<5)):
+                sully = 1
+        else:
+                sully = 0
     
     
         #ser.close()

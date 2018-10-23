@@ -17,6 +17,7 @@ void setup() {
   Serial.begin(57600);
   
   mySerial.begin(9600);
+  mySerial.setTimeout(3);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -50,9 +51,6 @@ void motors(){
   m1.setSpeed(w1_speed);
   m2.setSpeed(w2_speed);
   m3.setSpeed(w3_speed);
-  Serial.println(w1_speed);
-  Serial.println(w2_speed);
-  Serial.println(w3_speed);
   
 }
 
@@ -60,51 +58,43 @@ void motors(){
 void loop() { // run over and over
   if (mySerial.available()) {
     //Serial.print((char)mySerial.read());
-    info = mySerial.readString();
+    info = mySerial.readStringUntil('/n');
     
     Serial.println(info);
-  }
-  if(info[0] == '['){
-    String temp;
-    String topic;
-    info.remove(0,1);
-    info.remove(info.length()-1,1);
-    int i = 0;
-     while(info[i] != ']' && i <= info.length()){
-      i++;
+    if(info[0] == '['){
+      String temp;
+      String topic;
+      info.remove(0,1);
+      info.remove(info.length()-1,1);
+      int i = 0;
+       while(info[i] != ']' && i <= info.length()){
+        i++;
+      }
+      info.remove(i,2);
+      info.remove(info.length() -1, 1);
+      info.remove(0, i);
+    
+      for(i = 0; info[i]!='_';i++){}
+      temp = info;
+      info.remove(i, info.length()-i); 
+      w1 = info.toInt();
+      info = temp;
+      info.remove(0,i+1);
+    
+      for(i = 0; info[i]!='_';i++){}
+      temp = info;
+      info.remove(i, info.length()-i);
+      w2 = info.toInt();
+      info = temp;
+      info.remove(0,i+1);
+    
+      info.remove(info.length()-1, 1);
+      w3 = info.toInt();
+      motors();
+      info ="";
     }
-    temp = info;
-    info.remove(i,info.length() - i);
-    topic = info;
-    info = temp;
-    info.remove(i,2);
-    info.remove(info.length() -1, 1);
-    info.remove(0, i);
-    Serial.println(topic);
-
-    for(i = 0; info[i]!='_';i++){}
-    temp = info;
-    info.remove(i, info.length()-i); 
-    w1 = info.toInt();
-    info = temp;
-    info.remove(0,i+1);
-
-    for(i = 0; info[i]!='_';i++){}
-    temp = info;
-    info.remove(i, info.length()-i);
-    w2 = info.toInt();
-    info = temp;
-    info.remove(0,i+1);
-
-    info.remove(info.length()-1, 1);
-    w3 = info.toInt();
-
-    Serial.println(w1);
-    Serial.println(w2);
-    Serial.println(w3);
-    motors();
-    info ="";
   }
+  
   
   
   if (Serial.available()) {

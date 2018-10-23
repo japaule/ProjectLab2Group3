@@ -3,8 +3,6 @@
 
 // Update these with values suitable for your network.
 
-//const char* ssid = "ATT678F8hN";
-//const char* password = "8jvk4m?nk#zh";
 
 const char* ssid = "NETGEAR56";
 const char* password = "cleverviolet049";

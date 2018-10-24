@@ -26,9 +26,22 @@ def orentation(theta, x, y):
     return nTheta
 
 def move(cx, cy, nx, ny):
-    changeX = nx - cx
-    changeY = ny - cy
+        changeX = nx - cx
+        changeY = ny - cy
 
-    return [changeX, changeY]
+        return [changeX, changeY]
+
+change = move(100,50,50,75)
+
+magnitude = math.sqrt((change[0]*change[0])+(change[1]*change[1]))
+
+changeX=(change[0]/magnitude)*300
+changeY=(change[1]/magnitude)*300
+
+print(changeX)
+print(changeY)
+print(vectors(theta,changeX,changeY,x))
+
+
 
     

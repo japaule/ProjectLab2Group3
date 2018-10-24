@@ -18,6 +18,8 @@ void setup() {
   
   mySerial.begin(9600);
   mySerial.setTimeout(3);
+
+  pinMode(9,OUTPUT);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
@@ -101,6 +103,12 @@ void loop() { // run over and over
     
       info.remove(info.length()-1, 1);
       sully = info.toInt();
+
+      if(sully == 1){
+        digitalWrite(6,HIGH);
+      }
+      else
+        digitalWrite(6,LOW);
       
       motors();
       Serial.println(sully);

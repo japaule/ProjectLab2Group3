@@ -29,7 +29,14 @@ def move(cx, cy, nx, ny):
         changeX = nx - cx
         changeY = ny - cy
 
+        if(changeX < 5)
+            changeX = 0
+
+        if(changeY < 5)
+            changeY = 0
+
         return [changeX, changeY]
+
 
 change = move(100,50,50,75)
 

@@ -6,8 +6,9 @@ import serial
 import json
 import os
 from pix2coord import *
+from Mqtt import *
 ser=None
-
+sully = 0
 ##class definition of objects on field
 ##------------------------------------
 def updatejson(ser):
@@ -34,9 +35,18 @@ def updatejson(ser):
                 bluetriangle = objpos(data["Blue Team Data"]["Triangle"]["Object Center"]["X"],data["Blue Team Data"]["Triangle"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
                 
                 ball = objpos(data["Ball"]["Object Center"]["X"],data["Ball"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-                
+                print("ball")
                 ball.printobj()
+                print("red circle")
+                redcircle.printobj()
+                if ((abs(ball.x-redcircle.x))<15 and abs((ball.y-redcircle.y)<15)):
+                    sully = 1
+                    pubspeeds("Rover1",0,0,0,1)
+                else:
+                    sully = 0
+                print(sully)
                 return
+            
         
 ##        except KeyboardInterrupt: 
 ##            print ("Exiting Program")

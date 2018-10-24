@@ -4,6 +4,7 @@
 
 import mqtt_files.src.paho.mqtt.client as mqtt #import the client1
 import time
+#client = none 
 ############
 def on_message(client, userdata, message):
     print("message received " ,str(message.payload.decode("utf-8")))
@@ -12,6 +13,7 @@ def on_message(client, userdata, message):
 def mqtt_setup():
 	broker_address="192.168.1.10"
 	print("creating new instance")
+	global client
 	client = mqtt.Client("P1") 
 	client.on_message=on_message 
 	print("connecting to broker")
@@ -26,5 +28,5 @@ def mqtt_setup():
 # client.publish("Rover1/M2",300)
 # time.sleep(.8)
 def pubspeeds(Rover,m1,m2,m3,sully):
-	client.publish(Rover+str(m1)+'_'+str(m2)+'_'+str(m3)_sully)
+	client.publish(Rover,str(m1)+'_'+str(m2)+'_'+str(m3)+'_'+str(sully))
 

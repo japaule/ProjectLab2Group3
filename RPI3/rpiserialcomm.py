@@ -11,6 +11,7 @@ ser=None
 sully = 0
 ##class definition of objects on field
 ##------------------------------------
+ser = serial.Serial('/dev/serial0',115200) ##declare ser object for serial comms
 def updatejson(ser):
             # Serial begin with esp8266--------------------------------------------------
             if ser.inWaiting() > 0:
@@ -39,13 +40,16 @@ def updatejson(ser):
                 ball.printobj()
                 print("red circle")
                 redcircle.printobj()
-                if ((abs(ball.x-redcircle.x))<15 and abs((ball.y-redcircle.y)<15)):
-                    sully = 1
-                    pubspeeds("Rover1",0,0,0,1)
-                else:
-                    sully = 0
-                print(sully)
+                # if ((abs(ball.x-redcircle.x))<15 and abs((ball.y-redcircle.y)<15)):
+                #     sully = 1
+                #     pubspeeds("Rover1",0,0,0,1)
+                # else:
+                #     sully = 0
+                # print(sully)
                 return
+while True:
+    updatejson(ser)
+#
             
         
 ##        except KeyboardInterrupt: 

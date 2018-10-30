@@ -1,5 +1,6 @@
 ## this file contains functions and classes that rpiserialcomm uses to parse and translate to xy coordinates
-
+global prexmax
+prexmax = 300
 class objpos:
     def __init__(self,x,y,xmin,xmax,ymin,ymax):
         self.x = pix2coord_x(x,xmax,xmin)
@@ -36,11 +37,11 @@ class json_data:
         cor_tr = corners(data["Corners"][3]["X"],data["Corners"][3]["Y"])
         cor_bl = corners(data["Corners"][0]["X"],data["Corners"][0]["Y"])
         cor_tl = corners(data["Corners"][1]["X"],data["Corners"][1]["Y"])
-        cor_br.printobj()
-        cor_tr.printobj()
-        cor_bl.printobj()
-        cor_tl.printobj()
-        print("\n","\n")
+        #cor_br.printobj()
+        #cor_tr.printobj()
+        #cor_bl.printobj()
+        #cor_tl.printobj()
+        #print("\n","\n")
         cval = maxmin_xy(cor_tl.x, cor_tr.x, cor_bl.x, cor_br.x, cor_tl.y, cor_tr.y, cor_bl.y, cor_br.y) #find the max and min values of the corners 
         
         self.redcircle_x = pix2coord_x(data["Red Team Data"]["Circle"]["Object Center"]["X"],cval)
@@ -73,14 +74,11 @@ class corners:
 class maxmin_xy:
     def __init__(self,x1,x2,x3,x4,y1,y2,y3,y4):
         self.xmax = max(x1,x2,x3,x4)
-        print("xmax = ",max(x1,x2,x3,x4))
+        #print("xmax = ",max(x1,x2,x3,x4))
         self.ymax = max(y1,y2,y3,y4)
-        print("xmin = ",min(x1,x2,x3,x4))
+        #print("xmin = ",min(x1,x2,x3,x4))
         self.xmin = min(x1,x2,x3,x4)
         self.ymin = min(y1,y2,y3,y4)
-        if 'prexmax' not in globals():
-             global prexmax 
-             premax = 300
         if(self.xmax<100):
             self.xmax = prexmax
         else:

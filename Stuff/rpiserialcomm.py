@@ -46,10 +46,9 @@ def updatejson(ser):
                 # else:
                 #     sully = 0
                 # print(sully)
-                return bluesquare
-            return objpos(data["Blue Team Data"]["Square"]["Object Center"]["X"],data["Blue Team Data"]["Square"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-##while True:
-##    updatejson(ser)
+                return
+while True:
+    updatejson(ser)
 #
             
         

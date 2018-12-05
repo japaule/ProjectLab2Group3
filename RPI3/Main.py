@@ -4,73 +4,77 @@
 ## James Paule
 ## Jacob Saldua
 ## Cole Lewis
+try:
+    from Mqtt import *
+    from omnivectors import *
+    import json
+    from DataClass import *
+    import time
+    import requests
 
-from pix2coord import *
-from Mqtt import *
-import serial
-import json
-def updatejson(ser):	
-    if ser.inWaiting() > 0:
-        rawdata = ser.readline()
-        rawdata = rawdata.decode('ASCII')
-        data = json.loads(rawdata)
-        cor_br = corners(data["Corners"][2]["X"],data["Corners"][2]["Y"])
-        cor_tr = corners(data["Corners"][3]["X"],data["Corners"][3]["Y"])
-        cor_bl = corners(data["Corners"][0]["X"],data["Corners"][0]["Y"])
-        cor_tl = corners(data["Corners"][1]["X"],data["Corners"][1]["Y"])
-        cval = maxmin_xy(cor_tl.x, cor_tr.x, cor_bl.x, cor_br.x, cor_tl.y, cor_tr.y, cor_bl.y, cor_br.y) #find the max and min values of the corners 
-        
-        redcircle = objpos(data["Red Team Data"]["Circle"]["Object Center"]["X"],data["Red Team Data"]["Circle"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-        redsquare = objpos(data["Red Team Data"]["Square"]["Object Center"]["X"],data["Red Team Data"]["Square"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-        redtriangle = objpos(data["Red Team Data"]["Triangle"]["Object Center"]["X"],data["Red Team Data"]["Triangle"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-        
-        bluecircle = objpos(data["Blue Team Data"]["Circle"]["Object Center"]["X"],data["Blue Team Data"]["Circle"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-        bluesquare = objpos(data["Blue Team Data"]["Square"]["Object Center"]["X"],data["Blue Team Data"]["Square"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-        bluetriangle = objpos(data["Blue Team Data"]["Triangle"]["Object Center"]["X"],data["Blue Team Data"]["Triangle"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-        
-        ball = objpos(data["Ball"]["Object Center"]["X"],data["Ball"]["Object Center"]["Y"],cval.xmin,cval.xmax,cval.ymin,cval.ymax)
-        
-        ball.printobj()
-        return  
+    mqtt_setup() 		##Set up for mqtt 
+    time.sleep(1)   
+    sully = 0      ##varible for the solinoid
+    ldata = json_data() ##object holds all data from json
+    theta = 0
+    magnitude = 1
+    ldatax = 0
+    ldatay = 0
+    r = requests.get("http://192.168.137.1:8001/FieldData/GetData")
+    data = r.json()
+    ldata.update(data)
 
-sully = 0
-
-print("Application Starting.....")
-
-##Serial Comm Setup
-print("Serial Comm setup...")
-ser = serial.Serial('/dev/serial0',115200) ##declare ser object for serial comms
-time.sleep(1)
-mqtt_setup() 							##Set up for mqtt 
-time.sleep(1)
-##-----------------------------------------------------------
-## declare objects 
-cor_br = corners(100,100)
-cor_tr = corners(100,100)
-cor_bl = corners(100,100)
-cor_tl = corners(100,100)
-
-redcircle = objpos(0,0,20,40,50,60)
-redsquare = objpos(0,0,20,40,50,60)
-redtriangle = objpos(0,0,20,40,50,60)
-
-bluecircle = objpos(0,0,20,40,50,60)
-bluesquare = objpos(0,0,20,40,50,60)
-bluetriangle = objpos(0,0,20,40,50,60)
-
-ball = objpos(0,0,20,40,60,80)
-##------------------------------------------------------------
-
-while True:
-    time.sleep(.25)
-    updatejson(ser)
-    pubspeeds("Rover1",100,-200,100,sully)
-    if ((abs(ball.x-redcircle.x))<15 and abs((ball.y-redcircle.y)<15)):
-        sully = 1
-    else:
-        sully = 0
-
-
-    #ser.close()
-    #--------------------------------------------------------------------------------------------------------------------------------------
+    print("Mqtt setup successful....")
     
+    startx = ldata.redcircle_x
+    starty = ldata.redcircle_y
+    startcx = ldata.redsquare_x;
+    startcy = ldata.redsquare_y
+##    print("to ball")
+##    cordX = ldata.ball_x+10
+##    cordY = ldata.ball_y
+##    print(ldata.ball_x, " ",ldata.ball_y)
+##    last = moverover("r","circle",cordX,cordY, "Rover3", ldata.redcircle_x, ldata.redcircle_y)
+##    r = requests.get("http://192.168.137.1:8001/FieldData/GetData")
+##    data = r.json()
+##    ldata.update(data)
+##    print("touch ball")
+##    cordX = ldata.ball_x-2
+##    cordY = ldata.ball_y
+##    print(ldata.ball_x, " ",ldata.ball_y)
+##    last = moverover("r","circle",cordX,cordY, "Rover3", last[0], last[1])
+##    r = requests.get("http://192.168.137.1:8001/FieldData/GetData")
+##    data = r.json()
+##    ldata.update(data)
+##    print("backup")
+##    cordX = cordX+5
+##    cordY = cordY
+##    last = moverover("r","circle",cordX,cordY, "Rover3", last[0], last[1] )
+##    r = requests.get("http://192.168.137.1:8001/FieldData/GetData")
+##    data = r.json()
+##    ldata.update(data)
+##    print("to start")
+##    cordX = startx
+##    cordY = starty
+##    last = moverover("r","circle",cordX,cordY, "Rover3", last[0], last[1])
+    r = requests.get("http://192.168.137.1:8001/FieldData/GetData")
+    data = r.json()
+    ldata.update(data)
+    print("to ball")
+    cordX = ldata.ball_x+7
+    cordY = ldata.ball_y
+    last = moverover("r","square",cordX,cordY, "Rover2", startcx, startcy)
+##    print("touch ball")
+##    cordX = ldata.ball_x-10
+##    cordY = ldata.ball_y
+##    last = moverover("r","circle",cordX,cordY, "Rover1", last[0], last[1])
+    print("to goal")
+    cordX = 0
+    cordY = 50
+    last = moverover("r","square",cordX,cordY, "Rover2", last[0], last[1])
+
+
+finally:
+    pubspeeds("Rover1",0,0,0,0)
+    pubspeeds("Rover2",0,0,0,0)
+    pubspeeds("Rover3",0,0,0,0)

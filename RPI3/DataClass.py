@@ -1,6 +1,10 @@
 ## this file contains functions and classes that rpiserialcomm uses to parse and translate to xy coordinates
+<<<<<<< HEAD
 global prexmax
 prexmax = 300
+=======
+
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 class objpos:
     def __init__(self,x,y,xmin,xmax,ymin,ymax):
         self.x = pix2coord_x(x,xmax,xmin)
@@ -37,17 +41,24 @@ class json_data:
         cor_tr = corners(data["Corners"][3]["X"],data["Corners"][3]["Y"])
         cor_bl = corners(data["Corners"][0]["X"],data["Corners"][0]["Y"])
         cor_tl = corners(data["Corners"][1]["X"],data["Corners"][1]["Y"])
+<<<<<<< HEAD
         #cor_br.printobj()
         #cor_tr.printobj()
         #cor_bl.printobj()
         #cor_tl.printobj()
         #print("\n","\n")
+=======
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
         cval = maxmin_xy(cor_tl.x, cor_tr.x, cor_bl.x, cor_br.x, cor_tl.y, cor_tr.y, cor_bl.y, cor_br.y) #find the max and min values of the corners 
         
         self.redcircle_x = pix2coord_x(data["Red Team Data"]["Circle"]["Object Center"]["X"],cval)
         self.redcircle_y = pix2coord_y(data["Red Team Data"]["Circle"]["Object Center"]["Y"],cval)
         self.redsquare_x = pix2coord_x(data["Red Team Data"]["Square"]["Object Center"]["X"],cval)
+<<<<<<< HEAD
         self.redsquare_y = pix2coord_y(data["Red Team Data"]["Square"]["Object Center"]["Y"],cval)
+=======
+        self.redquare_y = pix2coord_y(data["Red Team Data"]["Square"]["Object Center"]["Y"],cval)
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
         self.redtriangle_x = pix2coord_x(data["Red Team Data"]["Triangle"]["Object Center"]["X"],cval)
         self.redtriangle_y = pix2coord_y(data["Red Team Data"]["Triangle"]["Object Center"]["Y"],cval)
         
@@ -60,10 +71,15 @@ class json_data:
         
         self.ball_x = pix2coord_x(data["Ball"]["Object Center"]["X"],cval)
         self.ball_y = pix2coord_y(data["Ball"]["Object Center"]["Y"],cval)
+<<<<<<< HEAD
         
         
 
         return self
+=======
+
+        return
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
     
  
 class corners:
@@ -76,6 +92,7 @@ class corners:
 class maxmin_xy:
     def __init__(self,x1,x2,x3,x4,y1,y2,y3,y4):
         self.xmax = max(x1,x2,x3,x4)
+<<<<<<< HEAD
         #print("xmax = ",max(x1,x2,x3,x4))
         self.ymax = max(y1,y2,y3,y4)
         #print("xmin = ",min(x1,x2,x3,x4))
@@ -89,6 +106,11 @@ class maxmin_xy:
             
         
            
+=======
+        self.ymax = max(y1,y2,y3,y4)
+        self.xmin = min(x1,x2,x3,x4)
+        self.ymin = min(y1,y2,y3,y4)
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 
 def pix2coord_x(pix_x,cval):
 ##    print(xmin," ",xmax)
@@ -99,6 +121,12 @@ def pix2coord_y(pix_y,cval):
 ##    print(ymin," ",ymax)
 ##    print(pix_y)
     return (100.0/(cval.ymax-cval.ymin)*(pix_y-cval.ymin))
+<<<<<<< HEAD
+=======
+while True:
+    loc_data = json_data()
+    print("this was ran")
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 
 
     

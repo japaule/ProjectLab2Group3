@@ -5,27 +5,19 @@
 ## Jacob Saldua
 ## Cole Lewis
 
-#from pix2coord import *
-<<<<<<< HEAD
-#from Mqtt import *
-=======
+from pix2coord import *
 from Mqtt import *
->>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 from omnivectors import *
-#from rpiserialcomm import *
+from rpiserialcomm import *
 import serial
 import json
 from DataClass import *
-<<<<<<< HEAD
-import time
-=======
->>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 
 print("Serial Comm setup...")
 #
 ser = serial.Serial('/dev/serial0',115200) ##declare ser object for serial comms
 time.sleep(1)
-#mqtt_setup() 							##Set up for mqtt 
+mqtt_setup() 							##Set up for mqtt 
 time.sleep(1)
 sully = 0
 ldata = json_data()
@@ -42,28 +34,15 @@ print("Application Starting.....")
 
 while True:
     
-<<<<<<< HEAD
-    time.sleep(.2)
-##    pubspeeds("Rover2",0,0,0,sully)
-    #try:
-    if ser.inWaiting() > 0:
-        rawdata = ser.readline()
-        rawdata = rawdata.decode('ASCII')
-        data = json.loads(rawdata)
-        ldata.update(data)
-        print(ldata.redsquare_x," ",ldata.redsquare_y)
-=======
     time.sleep(.555)
 ##    pubspeeds("Rover2",0,0,0,sully)
     try:
     	if ser.inWaiting() > 0:
-            rawdata = ser.readline()
-            rawdata = rawdata.decode('ASCII')
-            data = json.loads(rawdata)
-            ldata.update(data)
-            #print(ldata.redsquare_x," ",ldata.redsquare_y)
->>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
-            #print("\n",data["Red Team Data"]["Square"]["Object Center"]["X"],"\n")
+   		rawdata = ser.readline()
+   		rawdata = rawdata.decode('ASCII')
+   		data = json.loads(rawdata)
+   		ldata.update(data)
+   		print(ldata.ball_x," ",ldata.ball_y)
         #a = updatejson(ser)
         #time.sleep(2)
         #if ((abs(bluecircle.x-redcircle.x))<15 and abs((bluecircle.y-redcircle.y)<15)):
@@ -76,13 +55,8 @@ while True:
        # a.printobj()
     
         #change = move(a.x,a.y,100,50)
-<<<<<<< HEAD
-    #except:
-        #print("Houston We Have A Problem")
-=======
     except:
         print("Houston We Have A Problem")
->>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 
     # magnitude = math.sqrt((change[0]*change[0])+(change[1]*change[1]))
     # print(change)

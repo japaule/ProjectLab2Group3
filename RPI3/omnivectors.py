@@ -1,5 +1,6 @@
 import math
 
+<<<<<<< HEAD
 from Mqtt import *
 import time
 import json
@@ -7,12 +8,15 @@ from DataClass import *
 import time
 import requests
 
+=======
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 theta = 0
 fx = 1
 fy = 1
 x = 0
 
 def vectors( theta, fx, fy, x):
+<<<<<<< HEAD
     
     temp = fx%2
     if (temp<1):
@@ -26,6 +30,8 @@ def vectors( theta, fx, fy, x):
     else:
         fy = fy +(2-temp)
     
+=======
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
     faTop = (-fx*math.sin(math.radians(theta+180))+fx*math.sin(math.radians(theta+60))+fy*math.cos(math.radians(theta+180))-fy*math.cos(math.radians(theta+60))-x*math.cos(math.radians(theta+180))*math.sin(math.radians(theta+60))+x*math.cos(math.radians(theta+60))*math.sin(math.radians(theta+180)))
     fbTop = (fx*math.sin(math.radians(theta+300))-fx*math.sin(math.radians(theta+60))-fy*math.cos(math.radians(theta+300))+fy*math.cos(math.radians(theta+60))+x*math.cos(math.radians(theta+300))*math.sin(math.radians(theta+60))-x*math.cos(math.radians(theta+60))*math.sin(math.radians(theta+300)))
     fcTop = (fx*math.sin(math.radians(theta+180))-fx*math.sin(math.radians(theta+300))-fy*math.cos(math.radians(theta+180))+fy*math.cos(math.radians(theta+60))+x*math.cos(math.radians(theta+180))*math.sin(math.radians(theta+300))-x*math.cos(math.radians(theta+300))*math.sin(math.radians(theta+180)))
@@ -35,6 +41,7 @@ def vectors( theta, fx, fy, x):
     fa = faTop/bot
     fb = fbTop/bot
     fc = fcTop/bot
+<<<<<<< HEAD
 ##    ma = max(fa,fb,fc)
 ##    mi = min(fa,fb,fc)
 ##    if (fa == ma):
@@ -335,5 +342,30 @@ def moverover(color, shape, cordX, cordY, rover, lastx, lasty):
     return [ldatax,ldatay]
     
     
+=======
+
+    return [fa,fb,fc]
+
+def orentation(theta, x, y):
+    x=50-x
+
+    nTheta = math.degrees(math.atan(x/y))
+    nTheta = nTheta - theta
+    return nTheta
+
+def move(cx, cy, nx, ny):
+        changeX = nx - cx
+        changeY = ny - cy
+
+        if(abs(changeX) < 15):
+            changeX = 0
+
+        if(abs(changeY) < 10):
+            changeY = 0
+
+        return [changeX, changeY]
+
+
+>>>>>>> 5e87f194f2bbe21edf1961c00226e3fc689fb17d
 
     
